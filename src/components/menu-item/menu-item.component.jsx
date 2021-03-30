@@ -24,5 +24,5 @@ export default withRouter(MenuItem);
 //by wrapping like this, it wil have access to all history, location and match props
 //otherwise only homepage component (or any component in which route is being called - component name given in Route in App.js for specific route) 
 //has ideally access to these router props (history, location and match) and to access the same in other 
-//components , will have to pass the same as props in child components 
+//components , will have to pass the same as props in all child components (from home, home to directory, directory to menu-item)
 //which is called props drilling or props tunneling. To avoid this, HOC (Higher Order Components) are being used
