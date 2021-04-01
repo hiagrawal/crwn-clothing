@@ -13,6 +13,8 @@ const config = {
 };
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
+    console.log('userAuth inside method:', userAuth);
+    console.log('additionalData inside method:', additionalData);
     if(!userAuth) return;
 
     //console.log(firestore.doc('/users/Pr6UkKUkfT0Xt0NB3cwp/cartItems/OPyWU7CZQS8sBykdATLK'));
