@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {HomePage} from './pages/homepage/homepage.component.jsx';
 import ShopPage from './pages/shop/shop.component';
@@ -68,13 +68,17 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component= {HomePage}></Route>
           <Route exact path='/shop' component= {ShopPage}></Route>
-          <Route exact path='/signin' component= {SignInAndSignUpPage}></Route>
+          <Route exact path='/signin' render={() =>this.props.currentUser?(<Redirect to='/' />):(<SignInAndSignUpPage/>)}></Route>
         </Switch>
       </div>
     );
   }
   
 }
+
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+}) 
 
 const mapDispatchToProps = dispatch => ({
   setUserFunction: user => dispatch(setCurrentUser(user))
@@ -85,7 +89,7 @@ const mapDispatchToProps = dispatch => ({
 // whose value is a function that is accepting user as an argument and dispatching 
 //this user argument value to setCurrentuser action to store it in the reducer
 
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);
 //connect takes two arguments, one is mapStateToProps which is used to fetch data from reducer that we did
 //in header component but we don't need it here to it's null 
 //and second parameter is mapDispatchToProps whcih is used to set the data via action function
