@@ -13,16 +13,16 @@ const config = {
 };
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
-    console.log('userAuth inside method:', userAuth);
-    console.log('additionalData inside method:', additionalData);
+    // console.log('userAuth inside method:', userAuth);
+    // console.log('additionalData inside method:', additionalData);
     if(!userAuth) return;
 
     //console.log(firestore.doc('/users/Pr6UkKUkfT0Xt0NB3cwp/cartItems/OPyWU7CZQS8sBykdATLK'));
 
     const userRef = firestore.doc(`users/${userAuth.uid}`);
-    console.log('userRef in firebase utility:', userRef);
+    // console.log('userRef in firebase utility:', userRef);
     const snapShot = await userRef.get();
-    console.log('snapShot in firebase utility:',snapShot);
+    // console.log('snapShot in firebase utility:',snapShot);
 
     if(!snapShot.exists){
         const {displayName, email} = userAuth;
