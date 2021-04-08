@@ -25,14 +25,27 @@ const mapDispatchToProps = dispatch => ({
 //and then pulls off just a small portion or a slice of that state
 //that is taking only cart of that state then cart items and then item count.
 
-//issue with selectors is.. everytime it gets called on any other state change as well for ex when we sign in
-//then also it is called, when we sign out then also it is called which should not be the case
-//as even if cartItems is same which in turn itemCount is same then also, it is passing itemCount value to 
-//cartIcon and which is turn re-rending the cart icon component every time which is not good for performace
+//issue with this itemCount reduce is.. everytime it gets called on any other state change for ex 
+//when we sign in then also it is called, when we sign out then also it is called which should not be the case
+//as even if cartItems is same which in turn itemCount is same then also, reduce logic is running everytime
+//Also, if we want to use logic in another component, then again we wil have to write the same function
 
 //for this, we have memoization concept which is achieved using Reset library, which allows us to write 
-//selectors in such a way which knows if property pulling from the state is same then it will not pass the 
-//value to component which will stop re-rending of the component so it will be 
+//selectors. 
+
+//Due to itemCount being a primitive (integer), 
+//redux will do a shallow equality check under the hood between state changes in mapStateToProps. 
+//If our overall state changes but the itemCount value stays the same between these changes,  
+//redux's shallow equality check will see that itemCount is the same value as last time and does not re-render the component.
+// It's still valuable to keep the logic for the reduce in a selector though because 
+//we do still want to memoize the calculation of itemCount (our reduce logic), 
+//and without a selector our reduce logic would still be running on every state change 
+//regardless of the final calculated value of itemCount.
+
+//The take away here is that redux's mapStateToProps has a shallow equality check for every value in the object;
+// it won't replace values if they pass a shallow equality check which means it won't needlessly re-render, 
+//but if we have transformation logic it's valuable to memoize it with a selector to save us 
+//running duplicate logic to get the same output.
 
 const mapStateToProps = (state) => ({
     itemCount: selectCartItemsCount(state)

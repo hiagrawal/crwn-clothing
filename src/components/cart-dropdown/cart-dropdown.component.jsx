@@ -23,15 +23,18 @@ const CartDropdown = ({cartItems}) => (
 //     cartItems: state.cart.cartItems
 // })
 
-//this cartItem is a selector in redux and gets called if any value in state gets changed
-//even if it is not of cart or cart item. Even if user state changes in root reducer (store) then also
-//it invokes all the mapStateToProps in all components of all reducers. to vaoid this, we use createSelector
+//redux will do a shallow equality check under the hood between state changes in mapStateToProps
+//If our overall state changes but the cartItems value stays the same between these changes,  
+//redux's shallow equality check will see that cartItems is the same value as last time and 
+//save us a re-render
+
+// Take Away: redux's mapStateToProps has a shallow equality check for every value in the object; 
+//it won't replace values if they pass a shallow equality check which means it won't needlessly re-render, 
+//but if we have transformation logic it's still valuable to memoize it with a selector 
+//to save us running duplicate logic to get the same output.
 
 const mapStateToProps = state =>({
     cartItems: selectCartItems(state)
 })
-
-//this will make sure that our cart dropdown component does not re render when state changes which is 
-//unrelated to cart items which saves us on performance
 
 export default connect(mapStateToProps)(CartDropdown);
