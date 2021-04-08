@@ -9,6 +9,7 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
+import CheckoutPage from './pages/checkout/checkout.component';
 
 class App extends React.Component {
   // This is not needed now since we are setting the initial state in user reducer
@@ -68,6 +69,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component= {HomePage}></Route>
           <Route exact path='/shop' component= {ShopPage}></Route>
+          <Route exact path='/checkout' component= {CheckoutPage}></Route>
           <Route exact path='/signin' render={() =>this.props.currentUser?(<Redirect to='/' />):(<SignInAndSignUpPage/>)}></Route>
         </Switch>
       </div>
