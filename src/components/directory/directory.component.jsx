@@ -4,7 +4,7 @@ import './directory.styles.scss';
 
 import MenuItem from '../menu-item/menu-item.component';
 
-import SECTIONS_DATA from './sections.data';
+// import SECTIONS_DATA from './sections.data';
 
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
