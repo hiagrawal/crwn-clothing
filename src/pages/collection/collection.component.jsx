@@ -1,14 +1,21 @@
 import React from 'react';
 import './collection.styles.scss';
 
-const CollectionPage = ({match}) => {
-    console.log(match);
+import {connect} from 'react-redux';
+import { selectCollection } from '../../redux/shop/shop.selector';
+
+const CollectionPage = ({match,collection}) => {
+    console.log(match.params.collectionId);
+    console.log(collection);
     return(
         <div className="collection-page">
             <h2>Collection Page</h2>
         </div>
 )}
 
-export default CollectionPage;
+const mapStateToProps = (state, ownProps) => ({
+    collection: selectCollection(ownProps.match.params.collectionId)(state)
+})
+//ownProps is an optional second parameter which gives us the access to all the 'own props'(here match) of the component on which it is called(here CollectionPage)
 
-//ownProps is an optional second parameter which gives us the access to all the 'own props' of the component on which it is called
+export default connect(mapStateToProps)(CollectionPage);
