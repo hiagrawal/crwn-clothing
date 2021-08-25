@@ -25,6 +25,9 @@ class App extends React.Component {
   //   super(props);
   //   this.state={currentUser:null}
   // }
+
+  //super is used to get access to all the parent features that is React.component.. 
+  //to access all it's methods and data and properties... 
   
   unsubscribeFromAuth = null;
 
