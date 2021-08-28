@@ -39,3 +39,8 @@ export const selectCollection = collectionUrlParam => createSelector(
     [selectCollections],
     (collections)=>collections[collectionUrlParam]
 )
+
+//we learned about Objects (Hash Table data structure) being better for searching for items than Array. 
+//This is a common computing optimization when talking about data structures. 
+//If you want to learn more about why this is, 
+//this is a great resource for you to use: https://www.kirupa.com/html5/hashtables_vs_arrays.htm
