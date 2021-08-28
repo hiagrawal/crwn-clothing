@@ -8,11 +8,14 @@ import ErrorBoundary  from './components/error-boundary/error-boundary.component
 //import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 //import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import {auth, createUserProfileDocument} from './firebase/firebase.utils';
+import {auth, createUserProfileDocument, addCollectionAndDocuments} from './firebase/firebase.utils';
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
 //import CheckoutPage from './pages/checkout/checkout.component';
-import CollectionPage from './pages/collection/collection.component';
+import { selectCollectionsForPreview } from './redux/shop/shop.selector';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from './redux/user/user.selector';
+
 
 const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
 const ShopPage = lazy(() => import('./pages/shop/shop.component'));
@@ -32,6 +35,7 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount(){
+    const {setCurrentUser, collectionsArray} = this.props
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       //this.setState({currentUser:user});
       //console.log(user);
@@ -63,7 +67,8 @@ class App extends React.Component {
         this.props.setUserFunction(userAuth);
       }
       
-
+      //this is just to add shop data in firestore which we needed to run just once on mount 
+      //addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items}))); 
       
     })
   }
@@ -93,8 +98,15 @@ class App extends React.Component {
   
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+
+
+// const mapStateToProps = state => ({
+//   currentUser: state.user.currentUser,
+// }) 
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview
 }) 
 
 const mapDispatchToProps = dispatch => ({
