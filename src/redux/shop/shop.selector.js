@@ -44,3 +44,14 @@ export const selectCollection = collectionUrlParam => createSelector(
 //This is a common computing optimization when talking about data structures. 
 //If you want to learn more about why this is, 
 //this is a great resource for you to use: https://www.kirupa.com/html5/hashtables_vs_arrays.htm
+
+//Now since we converted shop data into objects instaed of arrays so CollectionOverview which was iterating over
+//the collections array will now start throwing error. 
+//to make it working, we will have to convert collections that we are passing in 'selectCollections' selector to arrays
+
+export const selectCollectionsForPreview = createSelector(
+    [selectCollections],
+    (collections)=>Object.keys(collections).map(key => collections[key])
+)
+//In this, we are getting keys which is ['hats','jackets','sneakers','womens','mens'] and iterating over this array to get hats
+//data by getting from collections object and passing hats, jackets etc so returning an array with objects like we had our shop data earlier
