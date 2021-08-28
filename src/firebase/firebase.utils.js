@@ -37,6 +37,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     return userRef;
 }
 
+//this is a method used to add shop data in firebase database.
+//can be used to store any data to store in firebase as it is a generic function
 export const addCollectionAndDocuments = async (collectionKey,objectsToAdd) => {
     const collectionRef = firestore.collection(collectionKey);
   
@@ -47,6 +49,27 @@ export const addCollectionAndDocuments = async (collectionKey,objectsToAdd) => {
     });
   
     return await batch.commit();
+  };
+
+  //we are fetching the data from database
+  export const convertCollectionsSnapshotToMap = (collections) => {
+    const transformedCollection = collections.docs.map((doc) => {
+      const { title, items } = doc.data();
+  
+      //adding routeName and id to the data getting returned from firebase datase
+      return {
+        routeName: encodeURI(title.toLowerCase()),
+        id: doc.id,
+        title,
+        items,
+      };
+    });
+  
+    //and since it is an array like we has in shop data, we are converting it into an object that we did for shop data
+    return transformedCollection.reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+    }, {});
   };
 
 
