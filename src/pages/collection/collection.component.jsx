@@ -4,7 +4,9 @@ import './collection.styles.scss';
 import {connect} from 'react-redux';
 import { selectCollection } from '../../redux/shop/shop.selector';
 
-const CollectionPage = ({match,collection}) => {
+const CollectionPage = ({match,location,collection}) => {
+    console.log(match);
+    console.log(location);
     console.log(match.params.collectionId);
     console.log(collection);
     return(

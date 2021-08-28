@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {toggleCartHidden} from '../../redux/cart/cart.actions';
 import {selectCartItemsCount} from '../../redux/cart/cart.selectors';
 
+//svg images are imported as ReactComponent
 const CartIcon =({toggleCartHidden,itemCount}) =>(
     <div className="cart-icon" onClick={toggleCartHidden}>
         <ShoppingIcon className='shopping-icon'/>

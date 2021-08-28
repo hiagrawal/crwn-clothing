@@ -11,6 +11,7 @@ import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from '../../redux/user/user.selector';
 import {selectCartHidden} from '../../redux/cart/cart.selectors';
 
+//Link is used to link a route so it will be redirected to that route as per routes defined in app.js whwn clicked
 const Header = ({currentUser,hidden}) => (
     <div className="header">
         <Link className="logo-container" to="/">
