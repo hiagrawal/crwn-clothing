@@ -53,12 +53,33 @@ class ShopPage extends React.Component {
       const { updateCollections } = this.props;
       const collectionRef = firestore.collection('collections');
 
+      //Promise pattern
       collectionRef.get().then((snapshot) => {
         const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
         updateCollections(collectionsMap);
         this.setState({isLoading:false}); 
         //setting isLoading to false that is no need to show spinner when data has been fetched
       });
+
+        // REST API
+        // fetch(
+        //     'https://firestore.googleapis.com/v1/projects/crwn-db-90478/databases/(default)/documents/collections'
+        // ).then(response => response.json())
+        // .then(collections => console.log("collections", collections))
+
+        //Observable pattern
+        // collectionRef.onSnapshot(async snapshot => {
+        //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);    
+        //     updateCollections(collectionsMap);
+        //     this.setState({ loading : false});
+        // })
+
+        //we will get collection values set in redux "collections" only when
+        //this component will execute, if we have some component that needs
+        //this collection data and have no dependency on this component then
+        //we have to repeat the same code over there also, to avoid it we can
+        //move this "collections" load to redux
+        
     }
   
     render() {
