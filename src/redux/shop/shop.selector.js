@@ -37,7 +37,7 @@ export const selectCollections = createSelector(
 //converted shop data to object so now instead of finding, directly ggetting the data using key
 export const selectCollection = collectionUrlParam => createSelector(
     [selectCollections],
-    (collections)=>collections[collectionUrlParam]
+    (collections)=>collections ? collections[collectionUrlParam] : null
 )
 
 //we learned about Objects (Hash Table data structure) being better for searching for items than Array. 
@@ -51,7 +51,7 @@ export const selectCollection = collectionUrlParam => createSelector(
 
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    (collections)=>Object.keys(collections).map(key => collections[key])
+    (collections)=>collections ? Object.keys(collections).map(key => collections[key]) : []
 )
 //In this, we are getting keys which is ['hats','jackets','sneakers','womens','mens'] and iterating over this array to get hats
 //data by getting from collections object and passing hats, jackets etc so returning an array with objects like we had our shop data earlier

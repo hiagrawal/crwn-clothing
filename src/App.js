@@ -12,7 +12,7 @@ import {auth, createUserProfileDocument, addCollectionAndDocuments} from './fire
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
 //import CheckoutPage from './pages/checkout/checkout.component';
-import { selectCollectionsForPreview } from './redux/shop/shop.selector';
+//import { selectCollectionsForPreview } from './redux/shop/shop.selector';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selector';
 
@@ -35,7 +35,7 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount(){
-    const {setCurrentUser, collectionsArray} = this.props
+    //const {setCurrentUser, collectionsArray} = this.props
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       //this.setState({currentUser:user});
       //console.log(user);
@@ -106,7 +106,7 @@ class App extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  collectionsArray: selectCollectionsForPreview
+  //collectionsArray: selectCollectionsForPreview
 }) 
 
 const mapDispatchToProps = dispatch => ({
