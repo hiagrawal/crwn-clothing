@@ -55,3 +55,8 @@ export const selectCollectionsForPreview = createSelector(
 )
 //In this, we are getting keys which is ['hats','jackets','sneakers','womens','mens'] and iterating over this array to get hats
 //data by getting from collections object and passing hats, jackets etc so returning an array with objects like we had our shop data earlier
+
+export const selectIsCollectionFetching = createSelector(
+    [selectShop],
+    shop => shop.isFetching
+)

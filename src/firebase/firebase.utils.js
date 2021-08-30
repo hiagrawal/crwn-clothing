@@ -65,7 +65,7 @@ export const addCollectionAndDocuments = async (collectionKey,objectsToAdd) => {
       };
     });
   
-    //and since it is an array like we has in shop data, we are converting it into an object that we did for shop data
+    //and since it is an array like we had in shop data, we are converting it into an object that we did for shop data
     return transformedCollection.reduce((accumulator, collection) => {
       accumulator[collection.title.toLowerCase()] = collection;
       return accumulator;

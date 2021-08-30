@@ -30,8 +30,10 @@ export default ShopPage;*/
 
 import { connect } from 'react-redux';
 import {firestore,convertCollectionsSnapshotToMap,} from '../../firebase/firebase.utils.js';
-import { updateCollections } from '../../redux/shop/shop.actions';
-
+//import { updateCollections } from '../../redux/shop/shop.actions';
+import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+import {selectIsCollectionFetching} from '../../redux/shop/shop.selector';
+import { createStructuredSelector } from 'reselect';
 
 
 const CollectionOverviewWithSpinner = WithSpinner(CollectionOverview); 
@@ -41,25 +43,25 @@ const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 //which is returning either a Spinner component or passed component depending on the isLoading paramter
 
 class ShopPage extends React.Component {
-   state = {
-     isLoading:true
-   }
+  //  state = {
+  //    isLoading:true
+  //  }
    //This is new introduced in React updated versions that no need to give constructor super and then state
    //Just can give state directly, and it will implement super under the hood now
 
     unsubscribeFromSnapshot = null;
 
     componentDidMount() {
-      const { updateCollections } = this.props;
-      const collectionRef = firestore.collection('collections');
+      // const { updateCollections } = this.props;
+      // const collectionRef = firestore.collection('collections');
 
       //Promise pattern
-      collectionRef.get().then((snapshot) => {
-        const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-        updateCollections(collectionsMap);
-        this.setState({isLoading:false}); 
-        //setting isLoading to false that is no need to show spinner when data has been fetched
-      });
+      // collectionRef.get().then((snapshot) => {
+      //   const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+      //   updateCollections(collectionsMap);
+      //   this.setState({isLoading:false}); 
+      //   //setting isLoading to false that is no need to show spinner when data has been fetched
+      // });
 
         // REST API
         // fetch(
@@ -80,31 +82,38 @@ class ShopPage extends React.Component {
         //we have to repeat the same code over there also, to avoid it we can
         //move this "collections" load to redux
         
+        this.props.fetchCollectionsStartAsync();
     }
   
     render() {
-      const { match } = this.props;
-      const {isLoading} = this.state;
+      const { match, isLoading } = this.props;
+      //const {isLoading} = this.state;
       return (
         <div className='shop-page'>
-          <Route exact path={`${match.path}`} component={CollectionOverview} />
-          <Route path={`${match.path}/:collectionId`} component={CollectionPage}/>
+          {/* <Route exact path={`${match.path}`} component={CollectionOverview} />
+          <Route path={`${match.path}/:collectionId`} component={CollectionPage}/> */}
 
           {/* When we give component then component automatically gets access to all the history, match etc props 
           so using render, we need to pass props so it still has access to all those props 
           render is a function which gives access to the same props 
           and will have to use render since have to pass extra parameter also (isLoading) along with it's own props*/}
           
-          {/* <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={isLoading} {...props}/>} />
-          <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={isLoading} {...props}/>} /> */}
+          <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={isLoading} {...props}/>} />
+          <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={isLoading} {...props}/>} />
         </div>
       );
     }
   }
   
+  const mapStateToProps = createStructuredSelector({
+    isLoading: selectIsCollectionFetching
+  })
+
   const mapDispatchToProps = (dispatch) => ({
-    updateCollections: (collectionsMap) => dispatch(updateCollections(collectionsMap)),
+    //updateCollections: (collectionsMap) => dispatch(updateCollections(collectionsMap)),
+    fetchCollectionsStartAsync : () => dispatch(fetchCollectionsStartAsync())
   });
   
-  export default connect(null, mapDispatchToProps)(ShopPage);
+  //export default connect(null, mapDispatchToProps)(ShopPage);
+  export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);
 
