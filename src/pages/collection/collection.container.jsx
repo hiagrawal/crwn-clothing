@@ -20,3 +20,5 @@ const CollectionPageContainer = compose (
 )(CollectionPage)
 
 export default CollectionPageContainer;
+
+//Container dont render anything. They just pass props down to components
