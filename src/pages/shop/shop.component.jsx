@@ -32,7 +32,7 @@ import { connect } from 'react-redux';
 import {firestore,convertCollectionsSnapshotToMap,} from '../../firebase/firebase.utils.js';
 //import { updateCollections } from '../../redux/shop/shop.actions';
 import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
-import {selectIsCollectionFetching} from '../../redux/shop/shop.selector';
+import {selectIsCollectionFetching, selectIsCollectionLoaded} from '../../redux/shop/shop.selector';
 import { createStructuredSelector } from 'reselect';
 
 
@@ -86,7 +86,7 @@ class ShopPage extends React.Component {
     }
   
     render() {
-      const { match, isLoading } = this.props;
+      const { match, isLoading ,isCollectionLoaded } = this.props;
       //const {isLoading} = this.state;
       return (
         <div className='shop-page'>
@@ -99,14 +99,15 @@ class ShopPage extends React.Component {
           and will have to use render since have to pass extra parameter also (isLoading) along with it's own props*/}
           
           <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={isLoading} {...props}/>} />
-          <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={isLoading} {...props}/>} />
+          <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={!isCollectionLoaded} {...props}/>} />
         </div>
       );
     }
   }
   
   const mapStateToProps = createStructuredSelector({
-    isLoading: selectIsCollectionFetching
+    isLoading: selectIsCollectionFetching,
+    isCollectionLoaded : selectIsCollectionLoaded
   })
 
   const mapDispatchToProps = (dispatch) => ({

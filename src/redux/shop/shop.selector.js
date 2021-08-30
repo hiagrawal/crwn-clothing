@@ -60,3 +60,11 @@ export const selectIsCollectionFetching = createSelector(
     [selectShop],
     shop => shop.isFetching
 )
+
+export const selectIsCollectionLoaded = createSelector(
+    [selectShop],
+    shop => !!shop.collections
+)
+//!! is called double bang in javascript. It checks the value and returns true false
+//!!0 will give false //!!null - false //!!{} will return true
+
