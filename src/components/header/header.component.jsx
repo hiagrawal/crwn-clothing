@@ -10,9 +10,10 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from '../../redux/user/user.selector';
 import {selectCartHidden} from '../../redux/cart/cart.selectors';
+import { signOutStart } from '../../redux/user/user.actions';
 
 //Link is used to link a route so it will be redirected to that route as per routes defined in app.js whwn clicked
-const Header = ({currentUser,hidden}) => (
+const Header = ({currentUser,hidden,signOutStart}) => (
     <div className="header">
         <Link className="logo-container" to="/">
             <Logo className="logo" />
@@ -21,7 +22,12 @@ const Header = ({currentUser,hidden}) => (
         <div className="options">
             <Link className="option" to ="/shop">SHOP</Link>
             <Link className="option" to ="/contact">CONTACT</Link>
-            {currentUser? <div className="option" onClick={() => auth.signOut()}>SIGN OUT</div>:<Link className="option" to ="/signin">SIGN IN</Link>}
+            {
+              currentUser? 
+              //<div className="option" onClick={() => auth.signOut()}>SIGN OUT</div> :
+              <div className="option" onClick={signOutStart}>SIGN OUT</div> :
+              <Link className="option" to ="/signin">SIGN IN</Link>
+            }
             <CartIcon/>
         </div>
         { hidden ? null : <CartDropdown /> }
@@ -52,6 +58,10 @@ const Header = ({currentUser,hidden}) => (
     hidden: selectCartHidden
   })
 
-export default connect(mapStateToProps)(Header);
+  const mapDispatchToProps = dispatch => ({
+      signOutStart : () => dispatch(signOutStart())
+  })
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header);
 //this 'connect' is a higher order component is a function that accepts mapStateToProps function and returns 
 //another higher order component which is taking Header as an input component and modify the same

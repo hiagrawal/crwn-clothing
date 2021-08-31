@@ -7,10 +7,10 @@ import { selectCollection } from '../../redux/shop/shop.selector';
 import CollectionItem from '../../components/collection-item/collection-item.component';
 
 const CollectionPage = ({match,location,collection}) => {
-    console.log(match);
-    console.log(location);
-    console.log(match.params.collectionId);
-    console.log(collection);
+    // console.log(match);
+    // console.log(location);
+    // console.log(match.params.collectionId);
+    // console.log(collection);
 
     const {title, items} = collection;
     return(

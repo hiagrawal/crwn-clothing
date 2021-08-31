@@ -15,6 +15,7 @@ import {setCurrentUser} from './redux/user/user.actions';
 //import { selectCollectionsForPreview } from './redux/shop/shop.selector';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selector';
+import { checkUserSession } from './redux/user/user.actions';
 
 
 const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
@@ -73,6 +74,11 @@ class App extends React.Component {
     })
   }*/
 
+  componentDidMount(){
+    const { checkUserSession } = this.props;
+    checkUserSession();
+  }
+
   componentWillUnmount(){
     this.unsubscribeFromAuth();
   }
@@ -109,9 +115,13 @@ const mapStateToProps = createStructuredSelector({
   //collectionsArray: selectCollectionsForPreview
 }) 
 
-const mapDispatchToProps = dispatch => ({
-  setUserFunction: user => dispatch(setCurrentUser(user))
-});
+const mapDispatchToProps = dispatch => ({ 
+    checkUserSession : () => dispatch(checkUserSession())
+})
+
+// const mapDispatchToProps = dispatch => ({
+//   setUserFunction: user => dispatch(setCurrentUser(user))
+// });
 //mapDispatchToProps is a method that takes dispatch as an argument provided by redux and returns an object.
 //in object, it is returned in key value pair
 //first key is setUserFunction that we are creating which we wil be using to set value
