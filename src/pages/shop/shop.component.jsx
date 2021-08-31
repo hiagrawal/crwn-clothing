@@ -34,7 +34,8 @@ export default ShopPage;*/
 import { connect } from 'react-redux';
 // import {firestore,convertCollectionsSnapshotToMap,} from '../../firebase/firebase.utils.js';
 //import { updateCollections } from '../../redux/shop/shop.actions';
-import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+//import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+import {fetchCollectionsStart} from '../../redux/shop/shop.actions';
 // import {selectIsCollectionFetching, selectIsCollectionLoaded} from '../../redux/shop/shop.selector';
 // import { createStructuredSelector } from 'reselect';
 
@@ -85,7 +86,8 @@ class ShopPage extends React.Component {
         //we have to repeat the same code over there also, to avoid it we can
         //move this "collections" load to redux
         
-        this.props.fetchCollectionsStartAsync();
+        //this.props.fetchCollectionsStartAsync();
+        this.props.fetchCollectionsStart();
     }
   
     render() {
@@ -120,7 +122,8 @@ class ShopPage extends React.Component {
 
   const mapDispatchToProps = (dispatch) => ({
     //updateCollections: (collectionsMap) => dispatch(updateCollections(collectionsMap)),
-    fetchCollectionsStartAsync : () => dispatch(fetchCollectionsStartAsync())
+    //fetchCollectionsStartAsync : () => dispatch(fetchCollectionsStartAsync())
+    fetchCollectionsStart: ()=> dispatch(fetchCollectionsStart())
   });
   
   //export default connect(null, mapDispatchToProps)(ShopPage);
