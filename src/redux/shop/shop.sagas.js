@@ -1,6 +1,6 @@
 import ShopActionTypes from './shop.types';
 
-import { takeEvery, call, put } from "@redux-saga/core/effects";
+import { takeEvery, takeLatest, call, put } from "@redux-saga/core/effects";
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 import {fetchCollectionsSuccess, fetchCollectionsFailure} from './shop.actions';
 
@@ -20,5 +20,6 @@ export function* fetchCollectionsStartAsync(){
 //yield just represents that the line written beside it is asynchronous and should wait for it to complete before executing next line
 
 export function* fetchCollectionsStart(){
-    yield takeEvery(ShopActionTypes.FETCH_COLLECTIONS_START, fetchCollectionsStartAsync)
+    yield takeLatest(ShopActionTypes.FETCH_COLLECTIONS_START, fetchCollectionsStartAsync)
 }
+//Lets use takeLatest instead takeEvery coz in case multiple calls are fired, we are always interested in the final output
