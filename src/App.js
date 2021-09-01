@@ -1,4 +1,4 @@
-import React, {lazy, Suspense} from 'react';
+import React, {lazy, Suspense, useEffect} from 'react';
 import './App.css';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
@@ -23,7 +23,7 @@ const ShopPage = lazy(() => import('./pages/shop/shop.component'));
 const CheckoutPage = lazy(() => import('./pages/checkout/checkout.component'));
 const SignInAndSignUpPage = lazy(() => import('./pages/sign-in-and-sign-up/sign-in-and-sign-up.component'));
 
-class App extends React.Component {
+/*class App extends React.Component {
   // This is not needed now since we are setting the initial state in user reducer
   // constructor(props){
   //   super(props);
@@ -74,7 +74,7 @@ class App extends React.Component {
     })
   }*/
 
-  componentDidMount(){
+  /*componentDidMount(){
     const { checkUserSession } = this.props;
     checkUserSession();
   }
@@ -86,7 +86,6 @@ class App extends React.Component {
   render(){
     return (
       <div>
-        {/* <HomePage /> */}
         <Header/>
         <Switch>
           <ErrorBoundary>
@@ -131,4 +130,46 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps,mapDispatchToProps)(App);
 //connect takes two arguments, one is mapStateToProps which is used to fetch data from reducer that we did
 //in header component but we don't need it here to it's null 
-//and second parameter is mapDispatchToProps whcih is used to set the data via action function
+//and second parameter is mapDispatchToProps whcih is used to set the data via action function*/
+
+//Converted class component to function component using useEffect hook for lifecycle method
+const App = ({checkUserSession}) => {
+  
+  useEffect(() =>{
+    checkUserSession();
+  },[checkUserSession])
+  //We want checkuserSession to get called on component did mount only so if do not give second paramter 
+  //then it will get fired on every re-render and will to infinite loop
+  //If we give second parameter as empty array, then it will get fired on mount only but if it had any parent component that
+  //gets rendered then this would have also fired which although is not the case here since it does not have any parent component
+  //(which we have like in shop page)
+  //but better to give second paramter to avoid any gap
+  //Now can give checkUserSession only as second paramter since technically function is not getting changed and it will not fire 
+  //useEffect ever once after mount 
+
+  return (
+    <div>
+      <Header/>
+      <Switch>
+        <ErrorBoundary>
+          <Suspense fallback={<div>...Loading</div>}>
+            <Route exact path='/' component= {HomePage}></Route>
+            <Route path='/shop' component= {ShopPage}></Route>
+            <Route exact path='/checkout' component= {CheckoutPage}></Route>
+            <Route exact path='/signin' render={() =>this.props.currentUser?(<Redirect to='/' />):(<SignInAndSignUpPage/>)}></Route>
+          </Suspense>
+        </ErrorBoundary>
+      </Switch>
+    </div>
+  );
+}
+  
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser, 
+}) 
+
+const mapDispatchToProps = dispatch => ({ 
+  checkUserSession : () => dispatch(checkUserSession())
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

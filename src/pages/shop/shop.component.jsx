@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import './shop.styles.scss';
 import {Route} from 'react-router-dom';
 
@@ -46,16 +46,21 @@ import {fetchCollectionsStart} from '../../redux/shop/shop.actions';
 //and returns a new component(CollectionOverviewWithSpinner, CollectionPageWithSpinner) 
 //which is returning either a Spinner component or passed component depending on the isLoading paramter
 
-class ShopPage extends React.Component {
+//converting class component to function component using useEffect for lifecycle method
+//class ShopPage extends React.Component {
+const ShopPage = ({fetchCollectionsStart,match}) => {
   //  state = {
   //    isLoading:true
   //  }
    //This is new introduced in React updated versions that no need to give constructor super and then state
    //Just can give state directly, and it will implement super under the hood now
 
-    unsubscribeFromSnapshot = null;
+    //unsubscribeFromSnapshot = null;
 
-    componentDidMount() {
+    useEffect(()=>{
+      fetchCollectionsStart();
+    },[fetchCollectionsStart])
+    //componentDidMount() {
       // const { updateCollections } = this.props;
       // const collectionRef = firestore.collection('collections');
 
@@ -87,13 +92,13 @@ class ShopPage extends React.Component {
         //move this "collections" load to redux
         
         //this.props.fetchCollectionsStartAsync();
-        this.props.fetchCollectionsStart();
-    }
+        //this.props.fetchCollectionsStart();
+    //}
   
-    render() {
+    //render() {
       //const { match, isLoading ,isCollectionLoaded } = this.props;
       //const {isLoading} = this.state;
-      const { match } = this.props;
+      //const { match } = this.props;
       return (
         <div className='shop-page'>
           {/* <Route exact path={`${match.path}`} component={CollectionOverview} />
@@ -113,7 +118,7 @@ class ShopPage extends React.Component {
         </div>
       );
     }
-  }
+  //}
   
   // const mapStateToProps = createStructuredSelector({
   //   isLoading: selectIsCollectionFetching,
