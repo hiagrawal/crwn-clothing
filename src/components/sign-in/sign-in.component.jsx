@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, {useState} from 'react';
 import './sign-in.styles.scss';
 
 import Forminput from '../form-input/form-input.component';
@@ -10,7 +10,7 @@ import {auth,signInWithGoogle} from '../../firebase/firebase.utils';
 import {connect} from 'react-redux';
 import {googleSignInStart, emailSignInStart} from '../../redux/user/user.actions'
 
-class SignIn extends React.Component{
+/*class SignIn extends React.Component{
     constructor(props){
       super(props);
       this.state= {
@@ -61,7 +61,7 @@ class SignIn extends React.Component{
                         required />
                     <div className="buttons">
                         <CustomButton type="submit">Sign In</CustomButton>
-                        {/* <CustomButton type="button" onClick={signInWithGoogle} isGoogleSignIn>Sign In With Google</CustomButton> */}
+                        <CustomButton type="button" onClick={signInWithGoogle} isGoogleSignIn>Sign In With Google</CustomButton>
                         <CustomButton type="button" onClick={googleSignInStart} isGoogleSignIn>Sign In With Google</CustomButton>
                     </div>
                     
@@ -71,6 +71,60 @@ class SignIn extends React.Component{
 
         )
     }
+}
+
+const mapDispatchToProps = dispatch => ({
+    googleSignInStart: ()=> dispatch(googleSignInStart()),
+    emailSignInStart: (email,password)=>dispatch(emailSignInStart({email,password}))
+})
+
+export default connect(null, mapDispatchToProps)(SignIn);*/
+
+//converted class component to function component and used useState hook for local states
+const SignIn = ({emailSignInStart, googleSignInStart}) => {
+    const [userCrenentials, setUserCredentials] = useState({email:"",password:""})
+
+    const {email, password} = userCrenentials;
+
+    const handleChange = event =>{
+        const {name,value} = event.target;
+        setUserCredentials({...userCrenentials, [name]:value});
+    }
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        emailSignInStart(email,password);
+    }
+
+    return(
+        <div className="sign-in">
+            <h2 className="title">I already have an account</h2>
+            <span className="sub-title">Sign in with your email and password</span>
+            <form onSubmit={handleSubmit}>
+                <Forminput 
+                    type="email"
+                    name="email"
+                    value={email}
+                    label="Email"
+                    handleChange={handleChange}
+                    required />
+                <Forminput 
+                    type="password"
+                    name="password"
+                    value={password}
+                    label="Password"
+                    handleChange={handleChange}
+                    required />
+                <div className="buttons">
+                    <CustomButton type="submit">Sign In</CustomButton>
+                    <CustomButton type="button" onClick={googleSignInStart} isGoogleSignIn>Sign In With Google</CustomButton>
+                </div>
+                
+            </form>
+
+        </div>
+
+    )
 }
 
 const mapDispatchToProps = dispatch => ({
