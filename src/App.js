@@ -9,7 +9,8 @@ import ErrorBoundary  from './components/error-boundary/error-boundary.component
 import Header from './components/header/header.component';
 //import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import {auth, createUserProfileDocument, addCollectionAndDocuments} from './firebase/firebase.utils';
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
 //import CheckoutPage from './pages/checkout/checkout.component';
 //import { selectCollectionsForPreview } from './redux/shop/shop.selector';
@@ -133,11 +134,13 @@ export default connect(mapStateToProps,mapDispatchToProps)(App);
 //and second parameter is mapDispatchToProps whcih is used to set the data via action function*/
 
 //Converted class component to function component using useEffect hook for lifecycle method
-const App = ({checkUserSession}) => {
+//using useState and useDispatch React-Redux hooks instead of mapStateToProps and mapsDispatchToProps
+//const App = ({checkUserSession, currentUser}) => {
   
-  useEffect(() =>{
-    checkUserSession();
-  },[checkUserSession])
+  // useEffect(() =>{
+  //   checkUserSession();
+  // },[checkUserSession])
+
   //We want checkuserSession to get called on component did mount only so if do not give second paramter 
   //then it will get fired on every re-render and will to infinite loop
   //If we give second parameter as empty array, then it will get fired on mount only but if it had any parent component that
@@ -146,6 +149,30 @@ const App = ({checkUserSession}) => {
   //but better to give second paramter to avoid any gap
   //Now can give checkUserSession only as second paramter since technically function is not getting changed and it will not fire 
   //useEffect ever once after mount 
+
+const App = () => {
+  const currentUser = useSelector(selectCurrentUser);
+  //const isHidden = useSelector((state) => state.cart.hidden);
+  //can give directly like this also as we used to give in mapStateToProps 
+  //but since this is not a memoized selector whenever any state value changes, this will be rendered again
+  const dispatch = useDispatch();
+  //const checkUserSession = () => dispatch(checkUserSession());
+  //this checkUserSession is also an action, earlier we used to give like this but then import that as as prop so it would understand
+  //but here will have to give another name which is different from action name
+
+  // const checkUserSessionHandler = () => dispatch(checkUserSession());
+  // useEffect(() =>{
+  //   checkUserSessionHandler();
+  //   },[checkUserSessionHandler])
+
+  //but now whenever this App renders, it will instantiate a new instance of checkUserSessionHandler method 
+  //and hence useEffect will get fired on every re-render
+  //so we can remove the same and write it directly in useEffect
+
+  useEffect(() =>{
+    dispatch(checkUserSession());
+    },[dispatch])
+
 
   return (
     <div>
@@ -156,7 +183,7 @@ const App = ({checkUserSession}) => {
             <Route exact path='/' component= {HomePage}></Route>
             <Route path='/shop' component= {ShopPage}></Route>
             <Route exact path='/checkout' component= {CheckoutPage}></Route>
-            <Route exact path='/signin' render={() =>this.props.currentUser?(<Redirect to='/' />):(<SignInAndSignUpPage/>)}></Route>
+            <Route exact path='/signin' render={() =>currentUser?(<Redirect to='/' />):(<SignInAndSignUpPage/>)}></Route>
           </Suspense>
         </ErrorBoundary>
       </Switch>
@@ -164,12 +191,13 @@ const App = ({checkUserSession}) => {
   );
 }
   
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser, 
-}) 
+// const mapStateToProps = createStructuredSelector({
+//   currentUser: selectCurrentUser, 
+// }) 
 
-const mapDispatchToProps = dispatch => ({ 
-  checkUserSession : () => dispatch(checkUserSession())
-})
+// const mapDispatchToProps = dispatch => ({ 
+//   checkUserSession : () => dispatch(checkUserSession())
+// })
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+//export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default App;
