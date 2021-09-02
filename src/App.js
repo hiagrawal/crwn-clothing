@@ -201,3 +201,4 @@ const App = () => {
 
 //export default connect(mapStateToProps,mapDispatchToProps)(App);
 export default App;
+//with Hooks, we can remove connect HOC to get access to state and dispatch

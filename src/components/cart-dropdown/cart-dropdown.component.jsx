@@ -3,13 +3,22 @@ import React from 'react';
 import './cart-dropdown.styles.scss';
 import  CustomButton from '../custom-button/custom-button.component';
 import CartItem from '../cart-item/cart-item.component';
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import {selectCartItems} from '../../redux/cart/cart.selectors';
-import {withRouter} from 'react-router-dom';
+//import {withRouter} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {toggleCartHidden} from '../../redux/cart/cart.actions';
 
 
-const CartDropdown = ({cartItems, history, dispatch}) => (
+// const CartDropdown = ({cartItems, history, dispatch}) => (
+const CartDropdown = () => {
+    const cartItems = useSelector(selectCartItems);
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+
+    return(
     <div className="cart-dropdown">
         <div className="cart-items">
             {   
@@ -26,6 +35,7 @@ const CartDropdown = ({cartItems, history, dispatch}) => (
         }}>Go TO CHECKOUT</CustomButton>
     </div>
 ) 
+}
 
 // const mapStateToProps = state =>({
 //     cartItems: state.cart.cartItems
@@ -41,12 +51,14 @@ const CartDropdown = ({cartItems, history, dispatch}) => (
 //but if we have transformation logic it's still valuable to memoize it with a selector 
 //to save us running duplicate logic to get the same output.
 
-const mapStateToProps = state =>({
-    cartItems: selectCartItems(state)
-})
+// const mapStateToProps = state =>({
+//     cartItems: selectCartItems(state)
+// })
 
-export default withRouter(connect(mapStateToProps)(CartDropdown));
+// export default withRouter(connect(mapStateToProps)(CartDropdown));
 
 //if we do not pass mapDispatch tp props as a second argument in connect then we get 
 //dispatch as a prop in the component
 //we can use the same to directly call a user action when there is only one method
+
+export default CartDropdown;
