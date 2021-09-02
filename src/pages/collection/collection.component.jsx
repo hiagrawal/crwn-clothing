@@ -1,14 +1,16 @@
 import React, {useEffect} from 'react';
 import './collection.styles.scss';
 
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import { selectCollection } from '../../redux/shop/shop.selector';
 
 import CollectionItem from '../../components/collection-item/collection-item.component';
 
 import { firestore } from '../../firebase/firebase.utils';
+import { useParams } from 'react-router-dom';
 
-const CollectionPage = ({match,location,collection}) => {
+// const CollectionPage = ({match,location,collection}) => {
+const CollectionPage = () => {
     // console.log(match);
     // console.log(location);
     // console.log(match.params.collectionId);
@@ -27,6 +29,8 @@ const CollectionPage = ({match,location,collection}) => {
     //     };
     // },[])
 
+    const params = useParams();
+    const collection = useSelector(selectCollection(params.collectionId));
     const {title, items} = collection;
     return(
         <div className="collection-page">
@@ -41,9 +45,11 @@ const CollectionPage = ({match,location,collection}) => {
         </div>
 )}
 
-const mapStateToProps = (state, ownProps) => ({
-    collection: selectCollection(ownProps.match.params.collectionId)(state)
-})
+// const mapStateToProps = (state, ownProps) => ({
+//     collection: selectCollection(ownProps.match.params.collectionId)(state)
+// })
 //ownProps is an optional second parameter which gives us the access to all the 'own props'(here match) of the component on which it is called(here CollectionPage)
 
-export default connect(mapStateToProps)(CollectionPage);
+//export default connect(mapStateToProps)(CollectionPage);
+export default CollectionPage;
+//using useSelector hook to get access to state and useParams Hook to get access to history params
