@@ -1,17 +1,20 @@
 
 import React, {Profiler} from 'react';
 
-import './homepage.styles.scss';
+//import './homepage.styles.scss';
+import { HomePageContainer } from './homepage.styles';
 
 import Directory from '../../components/directory/directory.component'
 
 const HomePage = () => {
     return(
-        <div className="homepage">
+        //<div className="homepage">
+        <HomePageContainer>
             <Profiler id="Directory" onRender={(id, phase, actualDuration)=> console.log({id,phase, actualDuration})}>
                 <Directory />
             </Profiler>
-        </div>
+        </HomePageContainer>
+        // </div>
     )
 }
 export default HomePage;
