@@ -28,16 +28,26 @@ export const OptionsContainer = styled.div`
 //so to not repeat the same styling for both the conatiners, 
 //we can make 'css' styling instead of 'styled' and use the same in both 
 
-const OptionContainerStyles = css`
+// const OptionContainerStyles = css`
+//     padding: 10px 15px;
+//     cursor: pointer;
+// `;
+
+//this css is a very good feature if we want to give same styling at multiple places
+//but here in our where there is just the difference of base element (Link, Div) where these styles should be applied
+//we can just keep the OptionLink and in component give OPtionLink as Div to get the OptionLink styling as well as keeping it still a div
+
+export const OptionLink = styled(Link)`
     padding: 10px 15px;
     cursor: pointer;
 `;
 
-export const OptionLink = styled(Link)`
-    ${OptionContainerStyles}
-`;
 
-export const OptionDiv = styled.div`
-    ${OptionContainerStyles}
-`;
+// export const OptionLink = styled(Link)`
+//     ${OptionContainerStyles}
+// `;
+
+// export const OptionDiv = styled.div`
+//     ${OptionContainerStyles}
+// `;
 
