@@ -1,6 +1,9 @@
 
 import React from 'react';
-import './header.styles.scss';
+//import './header.styles.scss';
+
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './header.styles';
+
 import {ReactComponent as Logo} from '../../assets/crown.svg';
 import {Link} from 'react-router-dom';
 import {auth} from '../../firebase/firebase.utils';
@@ -14,24 +17,34 @@ import { signOutStart } from '../../redux/user/user.actions';
 
 //Link is used to link a route so it will be redirected to that route as per routes defined in app.js whwn clicked
 const Header = ({currentUser,hidden,signOutStart}) => (
-    <div className="header">
-        <Link className="logo-container" to="/">
+    //<div className="header">
+    <HeaderContainer>
+        {/* <Link className="logo-container" to="/"> */}
+        <LogoContainer to="/">
             <Logo className="logo" />
-        </Link>
+        </LogoContainer>
+        {/* </Link> */}
         
-        <div className="options">
-            <Link className="option" to ="/shop">SHOP</Link>
-            <Link className="option" to ="/contact">CONTACT</Link>
+        {/* <div className="options"> */}
+        <OptionsContainer>
+            {/* <Link className="option" to ="/shop">SHOP</Link>
+            <Link className="option" to ="/contact">CONTACT</Link> */}
+            <OptionLink to ="/shop">SHOP</OptionLink>
+            <OptionLink to ="/contact">CONTACT</OptionLink>
             {
               currentUser? 
               //<div className="option" onClick={() => auth.signOut()}>SIGN OUT</div> :
-              <div className="option" onClick={signOutStart}>SIGN OUT</div> :
-              <Link className="option" to ="/signin">SIGN IN</Link>
+              // <div className="option" onClick={signOutStart}>SIGN OUT</div> :
+              <OptionDiv onClick={signOutStart}>SIGN OUT</OptionDiv>:
+              // <Link className="option" to ="/signin">SIGN IN</Link>
+              <OptionLink to ="/signin">SIGN IN</OptionLink>
             }
             <CartIcon/>
-        </div>
+        </OptionsContainer>
+        {/* </div> */}
         { hidden ? null : <CartDropdown /> }
-    </div>
+      </HeaderContainer>
+    // </div>
 )
 
 /*const mapStateToProps = state => ({
