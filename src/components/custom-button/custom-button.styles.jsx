@@ -72,3 +72,15 @@ const buttonStyles = css`
 `;
 
 
+//Another way to give custom styles just for example
+ //let's say in html, we have.. 
+
+ //<<div classname="Text" isActive={true}></div>
+
+//  const Text = styled.div`
+//     color:red;
+//     font-size:28px;
+//     border: ${(props) => props.isActive ? '1px solid black' : '3px dotted green'};
+//  `;
+
+//  <Text isActive={true}></Text>
