@@ -1,5 +1,6 @@
 import React, {lazy, Suspense, useEffect} from 'react';
-import './App.css';
+//import './App.css';
+import {GlobalStyle} from './global.styles';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import ErrorBoundary  from './components/error-boundary/error-boundary.component';
@@ -176,6 +177,7 @@ const App = () => {
 
   return (
     <div>
+      <GlobalStyle/>
       <Header/>
       <Switch>
         <ErrorBoundary>
