@@ -14,7 +14,14 @@ import rootSaga from './root.saga';
 const sagaMiddleware = createSagaMiddleware();
 
 //const middlewares = [logger,thunk];
-const middlewares = [logger,sagaMiddleware];
+//const middlewares = [logger,sagaMiddleware];
+
+//applying logger only when it is development
+const middlewares = [sagaMiddleware];
+
+if(process.env.NODE_ENV === 'development'){
+    middlewares.push(logger);
+}
 
 const store = createStore(rootReducer, applyMiddleware(...middlewares));
 //sagaMiddleware.run(fetchCollectionsStart);
