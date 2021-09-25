@@ -38,6 +38,10 @@ const CheckoutPage = ({cartItems,total}) => (
             *Please use the following test credit card for payment*
             <br/>
             4242 4242 4242 4242 - Exp: 01/22 - CVV: 123
+            {/* <br/>
+            4000 0035 6000 0008 Teting Card In India 
+            <br/>
+            Although It is not working as Stripe is not fully functional in India */}
         </div>
         <StripeCheckoutButton price={total}/>
     </div>
